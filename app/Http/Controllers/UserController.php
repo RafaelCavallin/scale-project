@@ -33,12 +33,21 @@ class UserController extends Controller
      */
     public function store(StoreUserRequest $request)
     {
-        $user = new User();
+        $newUser = new User();
 
-        $user->fill($request->all());
-        $user->save();
+        $newUser->fill($request->all());
 
-        return response()->json($user);
+        if ($newUser->isAdmin == 1) {
+
+            if (auth('sanctum')->user()->isAdmin == 0) {
+                return response()->json(['error' => 'Somente usuários administradores podem criar novos administradores.']);
+            }
+        }
+
+        $newUser->password = $newUser->hashPassword();
+        $newUser->save();
+
+        return response()->json($newUser);
     }
 
     /**

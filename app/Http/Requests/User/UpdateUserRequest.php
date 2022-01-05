@@ -26,7 +26,7 @@ class UpdateUserRequest extends FormRequest
         return [
             'name' => 'required|max:255',
             'email' => 'required|email|unique:App\Models\User,email',
-            'type_id' => 'required',
+            //'type_id' => 'required',
             'password' => 'required',
             'phone' => 'required',
             'professional_registration' => 'required|max:255',
@@ -41,7 +41,7 @@ class UpdateUserRequest extends FormRequest
             'email.required' => 'O campo email é obrigatório.',
             'email.email' => 'O e-mail é inválido.',
             'email.unique' => 'O e-mail já está em uso.',
-            'type_id.required' => 'O campo tipo é obrigatório.',
+            //'type_id.required' => 'O campo tipo é obrigatório.',
             'password.required' => 'O campo password é obrigatório.',
             'phone.required' => 'O campo telefone é obrigatório.',
             'professional_registration.required' => 'O campo identidade profissional é obrigatório.',

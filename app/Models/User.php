@@ -23,6 +23,7 @@ class User extends Authenticatable
         'type_id',
         'email',
         'password',
+        'isAdmin',
         'phone',
         'professional_registration',
     ];
@@ -62,5 +63,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(OnDuty::class);
 
+    }
+
+    public function hashPassword()
+    {
+        return bcrypt($this->password);
     }
 }

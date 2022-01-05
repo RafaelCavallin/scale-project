@@ -33,6 +33,8 @@ class TypeController extends Controller
      */
     public function store(StoreTypeRequest $request)
     {
+        //$user = auth('sanctum')->user(); -> retornando usuário através do token
+
         $type = new Type();
 
         $type->fill($request->all());
