@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\OnDuty\StoreOnDutyRequest;
 use App\Models\OnDuty;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class OnDutyController extends Controller
 {
@@ -33,8 +34,15 @@ class OnDutyController extends Controller
     public function store(StoreOnDutyRequest $request)
     {
         $onDuty = new OnDuty();
-
         $onDuty->fill($request->all());
+
+        //ddd($onDuty->date_start->diffInHours(Carbon::now())); -> diferença entre horas
+        //ddd($onDuty->date_start < Carbon::now());
+
+        if ($onDuty->date_start < Carbon::now()) {
+            return response()->json(['error' => 'Não é possível iniciar com datas passadas.']);
+        }
+
         $onDuty->save();
 
         return response()->json($onDuty);
@@ -71,6 +79,23 @@ class OnDutyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $onDutyToDelete = OnDuty::find($id);
+        $userLoggedInId = auth('sanctum')->user()->id;
+
+        if ($onDutyToDelete === null) {
+            return response()->json(['error' => 'Nenhum registro encontrado com esse ID.']);
+        }
+
+        if ($userLoggedInId != $onDutyToDelete->user_id) {
+            return response()->json(['error' => 'Esse plantão não pertence ao usuário logado.']);
+        }
+
+        $onDutyDeleted = $onDutyToDelete->delete();
+        if ($onDutyDeleted) {
+            //chamar evento aqui para envio de notificação
+            return response()->json(['success' => 'Plantão cancelado com sucesso.']);
+        } else {
+            return response()->json(['error' => 'Erro ao cancelar o plantão.']);
+        }
     }
 }

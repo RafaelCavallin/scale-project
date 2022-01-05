@@ -39,7 +39,6 @@ class LocationController extends Controller
         $location->save();
 
         return response()->json($location);
-
     }
 
     /**

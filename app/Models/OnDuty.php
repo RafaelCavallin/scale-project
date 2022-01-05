@@ -13,13 +13,13 @@ class OnDuty extends Model
     protected $fillable = [
         'date_start',
         'date_finish',
+        'user_id',
+        'location_id',
     ];
 
     protected $hidden = [
         'updated_at',
         'created_at',
-        'user_id',
-        'location_id',
     ];
 
     protected $casts = [

@@ -14,12 +14,12 @@ class Location extends Model
         'name',
         'email',
         'phone',
+        'address_id',
     ];
 
     protected $hidden = [
         'updated_at',
         'created_at',
-        'address_id',
     ];
 
     protected $with = [
